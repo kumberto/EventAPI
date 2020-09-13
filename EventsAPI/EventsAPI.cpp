@@ -14,25 +14,32 @@ DWORD WINAPI ClientTread(LPVOID arg)
 	SetEvent(h2);
 	DWORD res = WaitForSingleObject(h, INFINITE);
 	ResetEvent(h);
+
 	std::cout << data[0] << data[1];
+
 	return 0;
 }
 
 DWORD WINAPI ServerTread(LPVOID arg)
 {
 	DWORD res = WaitForSingleObject(h2, INFINITE);
+
 	data.push_back(100500);
 	data.push_back(100501);
+
 	SetEvent(h);
 	ResetEvent(h2);
+
 	return 0;
 }
 int main()
 {
 	h = CreateEventA(0, FALSE, FALSE, "MyClient");
 	h2 = CreateEventA(0, FALSE, FALSE, "MyServer");
+
 	CreateThread(0, 0, ClientTread, 0, 0, 0);
 	CreateThread(0, 0, ServerTread, 0, 0, 0);
+
 	Sleep(10000);
 	return 0;
 }
